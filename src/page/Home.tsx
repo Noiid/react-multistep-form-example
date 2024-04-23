@@ -3,6 +3,7 @@ import { ErrorMessage, Field, Form, Formik, FormikProps } from "formik";
 import "./Home.css";
 import { useState } from "react";
 import { Input, Typography } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const { Text } = Typography;
 // import { useState } from "react";
@@ -34,8 +35,11 @@ function Home() {
   const [page, setPage] = useState<number>(1);
   const [fulfillOne, setFulfillOne] = useState("");
 
+  const navigate = useNavigate();
+
   const handleSubmit = (values: FormData) => {
     alert(JSON.stringify(values, null, 10));
+    navigate("/menu");
   };
 
   const handlePage1 = (props: FormikProps<FormData>) => {
@@ -51,6 +55,19 @@ function Home() {
       setFulfillOne("Form One is not valid");
     }
   };
+
+  switch (page) {
+    case 1:
+      // call component form 1
+      break;
+
+    case 2:
+      // call component form 2
+      break;
+
+    default:
+      break;
+  }
 
   return (
     <>
