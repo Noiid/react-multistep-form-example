@@ -30,6 +30,10 @@ const Menu = () => {
     fetchData();
   }, []);
 
+  const gotoEdit = (id: number) => {
+    navigate("/edit/" + id);
+  };
+
   return (
     <>
       <h1>Profile: {profile.name}</h1>
@@ -45,7 +49,14 @@ const Menu = () => {
         {data &&
           data.map((item) => (
             <li key={item.id}>
-              {item.todo} - {item.completed ? "Completed" : "Not Completed"}
+              {item.todo} - {item.completed ? "Completed" : "Not Completed"}{" "}
+              <button
+                onClick={() => {
+                  gotoEdit(item.id);
+                }}
+              >
+                Edit
+              </button>
             </li>
           ))}
       </ul>

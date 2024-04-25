@@ -7,6 +7,7 @@ import AddTodo from "./page/AddTodo";
 import { useState } from "react";
 import { ProfileContext } from "./Context/ProfileContext";
 import GlobalProfile from "./types/GlobalProfile";
+import EditTodo from "./page/EditTodo";
 
 function App() {
   const [profile, setProfile] = useState("anonymous");
@@ -30,6 +31,7 @@ function App() {
           <Route path="/menu" element={<Menu />}></Route>
           <Route path="/contact" element={<Contact />}></Route>
           <Route path="/new_todo" element={<AddTodo />}></Route>
+          <Route path="/edit/:id" element={<EditTodo />}></Route>
         </Routes>
       </BrowserRouter>
     </ProfileContext.Provider>
