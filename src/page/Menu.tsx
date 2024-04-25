@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import FetchData from "../Utils/Fetch";
 import { useNavigate } from "react-router-dom";
+import { ProfileContext } from "../Context/ProfileContext";
 
 interface Todo {
   id: number;
@@ -14,6 +15,7 @@ interface Page {
 }
 
 const Menu = () => {
+  const profile = useContext(ProfileContext);
   const [data, setData] = useState<Todo[]>();
 
   const navigate = useNavigate();
@@ -30,6 +32,7 @@ const Menu = () => {
 
   return (
     <>
+      <h1>Profile: {profile.name}</h1>
       <h1>Menu Page </h1>
       <button
         onClick={() => {

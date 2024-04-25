@@ -4,10 +4,24 @@ import Home from "./page/Home";
 import Contact from "./page/Contact";
 import Menu from "./page/Menu";
 import AddTodo from "./page/AddTodo";
+import { useState } from "react";
+import { ProfileContext } from "./Context/ProfileContext";
+import GlobalProfile from "./types/GlobalProfile";
 
 function App() {
+  const [profile, setProfile] = useState("anonymous");
+
+  const changeName = (values: string) => {
+    setProfile(values);
+  };
+
+  const thisContext: GlobalProfile = {
+    name: profile,
+    setName: changeName,
+  };
+
   return (
-    <>
+    <ProfileContext.Provider value={thisContext}>
       <BrowserRouter>
         <Header />
 
@@ -18,7 +32,7 @@ function App() {
           <Route path="/new_todo" element={<AddTodo />}></Route>
         </Routes>
       </BrowserRouter>
-    </>
+    </ProfileContext.Provider>
   );
 }
 

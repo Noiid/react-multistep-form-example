@@ -1,9 +1,10 @@
 import * as Yup from "yup";
 import { ErrorMessage, Field, Form, Formik, FormikProps } from "formik";
 import "./Home.css";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Input, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
+import { ProfileContext } from "../Context/ProfileContext";
 
 const { Text } = Typography;
 // import { useState } from "react";
@@ -32,6 +33,7 @@ interface FormData {
 }
 
 function Home() {
+  const { name, setName } = useContext(ProfileContext);
   const [page, setPage] = useState<number>(1);
   const [fulfillOne, setFulfillOne] = useState("");
 
@@ -39,6 +41,7 @@ function Home() {
 
   const handleSubmit = (values: FormData) => {
     alert(JSON.stringify(values, null, 10));
+    setName(values.firstName);
     navigate("/menu");
   };
 
@@ -71,6 +74,7 @@ function Home() {
 
   return (
     <>
+      <h1>Profile: {name}</h1>
       <h1>Vite + React</h1>
       <div>
         <Formik
