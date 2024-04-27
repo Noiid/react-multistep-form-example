@@ -8,6 +8,9 @@ import { useState } from "react";
 import { ProfileContext } from "./Context/ProfileContext";
 import GlobalProfile from "./types/GlobalProfile";
 import EditTodo from "./page/EditTodo";
+import PrivateRoute from "./route/PrivateRoute";
+import Profile from "./page/Profile";
+import Login from "./page/Login";
 
 function App() {
   const [profile, setProfile] = useState("anonymous");
@@ -32,6 +35,10 @@ function App() {
           <Route path="/contact" element={<Contact />}></Route>
           <Route path="/new_todo" element={<AddTodo />}></Route>
           <Route path="/edit/:id" element={<EditTodo />}></Route>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/" element={<PrivateRoute />}>
+            <Route path="/profile" element={<Profile />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </ProfileContext.Provider>
