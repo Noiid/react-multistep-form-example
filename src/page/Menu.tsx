@@ -2,35 +2,36 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import FetchData from "../Utils/Fetch";
 import { useNavigate } from "react-router-dom";
 import { ProfileContext } from "../Context/ProfileContext";
-
-interface Todo {
-  id: number;
-  todo: string;
-  completed: boolean;
-  userId: number;
-}
-
-interface Page {
-  todos: Todo[];
-}
+import Category from "../types/Category";
 
 const Menu = () => {
   const profile = useContext(ProfileContext);
-  const [data, setData] = useState<Todo[]>();
+  const [data, setData] = useState<Category[]>();
   const [count, setCount] = useState(0);
 
   const navigate = useNavigate();
 
+  const options = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  };
+
   const fetchData = useCallback(async () => {
-    const response: Page = await FetchData("https://dummyjson.com/todos");
-    setData(response.todos);
+    const response: Category[] = await FetchData(
+      "https://library-crud-sample.vercel.app/api/category",
+      options
+    );
+    setData(response);
   }, []);
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  const gotoEdit = (id: number) => {
+  const gotoEdit = (id: string) => {
     navigate("/edit/" + id);
   };
 
@@ -50,7 +51,9 @@ const Menu = () => {
         {data &&
           data.map((item) => (
             <li key={item.id}>
-              {item.todo} - {item.completed ? "Completed" : "Not Completed"}{" "}
+              <b>Name:</b> {item.category_name} <br />
+              <b>Description:</b> {item.category_description} <br />
+              <b>Status:</b> {item.is_active ? "Active" : "Not Active"}
               <button
                 onClick={() => {
                   gotoEdit(item.id);

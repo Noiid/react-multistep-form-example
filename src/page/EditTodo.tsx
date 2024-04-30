@@ -1,28 +1,36 @@
 import { useEffect, useState } from "react";
 import FetchData from "../Utils/Fetch";
 import { useNavigate, useParams } from "react-router-dom";
-
-interface AddTodo {
-  todo: string;
-  completed: boolean;
-  userId: number;
-}
+import Category from "../types/Category";
 
 const EditTodo = () => {
   const idParams = useParams();
 
   const navigate = useNavigate();
 
-  const [todo, setTodo] = useState("");
-  const [userId, setUserId] = useState(5);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [is_active, setIsActive] = useState(false);
+  const [id, setId] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
-      const response: AddTodo = await FetchData(
-        `https://dummyjson.com/todos/${idParams.id}`
+      const optionsGet = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      };
+
+      const response: Category = await FetchData(
+        `https://library-crud-sample.vercel.app/api/category/${idParams.id}`,
+        optionsGet
       );
-      setTodo(response.todo);
-      setUserId(response.userId);
+      setName(response.category_name);
+      setDescription(response.category_description);
+      setIsActive(response.is_active);
+      setId(response.id);
     };
     fetchData();
   }, []);
@@ -30,20 +38,24 @@ const EditTodo = () => {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     console.log("trigger submit");
-    const newTodo: AddTodo = {
-      todo: todo,
-      completed: true,
-      userId: userId,
+    const newCategory: Category = {
+      category_name: name,
+      category_description: description,
+      is_active: is_active,
+      id: id,
     };
 
     const options = {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newTodo),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(newCategory),
     };
 
     const response = await FetchData(
-      `https://dummyjson.com/todos/${idParams.id}`,
+      `https://library-crud-sample.vercel.app/api/category/update`,
       options
     );
     if (response) {
@@ -58,19 +70,19 @@ const EditTodo = () => {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="todo"
+          placeholder="name"
           onChange={(e: any) => {
-            setTodo(e.target.value);
+            setName(e.target.value);
           }}
-          value={todo}
+          value={name}
         />
         <input
           type="text"
-          placeholder="user id"
+          placeholder="description"
           onChange={(e: any) => {
-            setUserId(e.target.value);
+            setDescription(e.target.value);
           }}
-          value={userId}
+          value={description}
         />
 
         <button>Save</button>

@@ -31,13 +31,13 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Home />}></Route>
-          <Route path="/menu" element={<Menu />}></Route>
           <Route path="/contact" element={<Contact />}></Route>
           <Route path="/new_todo" element={<AddTodo />}></Route>
           <Route path="/edit/:id" element={<EditTodo />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/" element={<PrivateRoute />}>
             <Route path="/profile" element={<Profile />} />
+            <Route path="/menu" element={<Menu />} />
           </Route>
         </Routes>
       </BrowserRouter>
