@@ -23,14 +23,18 @@ const EditTodo = () => {
         },
       };
 
-      const response: Category = await FetchData(
-        `https://library-crud-sample.vercel.app/api/category/${idParams.id}`,
-        optionsGet
-      );
-      setName(response.category_name);
-      setDescription(response.category_description);
-      setIsActive(response.is_active);
-      setId(response.id);
+      try {
+        const response: Category = await FetchData(
+          `https://library-crud-sample.vercel.app/api/category/${idParams.id}`,
+          optionsGet
+        );
+        setName(response.category_name);
+        setDescription(response.category_description);
+        setIsActive(response.is_active);
+        setId(response.id);
+      } catch (error: any) {
+        alert(error.message);
+      }
     };
     fetchData();
   }, []);
