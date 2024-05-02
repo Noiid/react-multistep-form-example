@@ -11,7 +11,7 @@ const News = () => {
 
   const fetchNews = useCallback(async () => {
     const response: PageNews = await FetchData(
-      "https://newsapi.org/v2/everything?q=bitcoin&apiKey=2af7ed098d51450bbedacc2e98d2b1ea"
+      "https://newsapi.org/v2/everything?q=bitcoin&apiKey="
     );
     setData(response.articles);
   }, []);
